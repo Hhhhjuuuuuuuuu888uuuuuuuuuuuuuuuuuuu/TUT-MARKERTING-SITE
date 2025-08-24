@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You - TUT Student Market</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+        
+        header {
+            background-color: #4a5568;
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .thank-you-content {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .checkmark {
+            color: #38a169;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            color: #2d3748;
+            margin-bottom: 1.5rem;
+        }
+        
+        p {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .order-details {
+            background-color: #f7fafc;
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .order-details h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .info-box {
+            background-color: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #3182ce;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .button:hover {
+            background-color: #2b6cb0;
+        }
+        
+        .secondary-button {
+            background-color: #a0aec0;
+            margin-left: 10px;
+        }
+        
+        .secondary-button:hover {
+            background-color: #718096;
+        }
+        
+        footer {
+            background-color: #4a5568;
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: 2rem;
+        }
+        
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+        
+        .contact-info a {
+            color: #bee3f8;
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .thank-you-content {
+                padding: 1.5rem;
+            }
+            
+            .button {
+                display: block;
+                margin: 0.5rem auto;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">TUT Science Student Market</div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="thank-you-content">
+            <div class="checkmark">✓</div>
+            <h1>Thank You for Your Order!</h1>
+            <p>Your order has been received and is being processed.</p>
+            
+            <div class="order-details">
+                <h3>Order Information</h3>
+                <p><strong>Order Number:</strong> #TUT<span id="order-number"></span></p>
+                <p><strong>Estimated Delivery:</strong> Within 2-4 working days to provided address.</p>
+                <p><strong>Payment Method:</strong> Cash on Delivery</p>
+            </div>
+            
+            <div class="info-box">
+                <p><strong>Important:</strong> Please have exact change ready for the delivery person. You will receive a confirmation SMS before delivery.</p>
+            </div>
+            
+            <p>We'll send you an email confirmation shortly with your order details.</p>
+            <p>For any questions about your order, please contact us at:</p>
+            <p><strong>Email:</strong> <a href="mailto:Collinsmaropeng2@gmail.com">info@market.com</a></p>
+            
+            <div>
+                <a href="index.html" class="button">Continue Shopping</a>
+                <!-- <a href="#" class="button secondary-button">Track Your Order</a> -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; <script>document.write(new Date().getFullYear());</script> TUT Science Faculty Market. All rights reserved.</p>
+            <div class="contact-info">
+                <p>Email: <a href="mailto:Collinsmaropeng2@gmail.com">Collinsmaropeng2@gmail.com</a> | 
+                Phone: 123-456-7890</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Generate a random order number
+        document.getElementById('order-number').textContent = Math.floor(1000 + Math.random() * 9000);
+    </script>
+</body>
+</html>

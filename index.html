@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUT Science Student Market</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 90px;
+            padding-bottom: 40px;
+            color: #333;
+        }
+        
+        nav {
+            background-color: #4a5568;
+            min-height: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 5px 10px;
+            z-index: 100;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        nav button, nav input {
+            margin: 0 5px;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        nav button {
+            background-color: #718096;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        nav button:hover {
+            background-color: #2d3748;
+        }
+        
+        #searchInput {
+            text-align: center;
+            max-width: 150px;
+        }
+        
+        .marquee {
+            width: 100%;
+            background-color: #f8f8f8;
+            padding: 5px 0;
+            position: fixed;
+            top: 40px;
+            z-index: 99;
+            border-bottom: 1px solid #ddd;
+            color: #2b6cb0;
+            font-weight: bold;
+        }
+        
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .main_div {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            width: 100%;
+            max-width: 280px;
+            padding: 15px;
+            margin: 10px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .main_div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item-img {
+            height: 120px;
+            margin: 15px auto;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .item-title {
+            color: #2d3748;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        
+        .item-price {
+            color: #2b6cb0;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        
+        .sub_div {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border: none;
+            margin-bottom: 10px;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .view-btn {
+            background-color: #718096;
+        }
+        
+        .view-btn:hover {
+            background-color: #4a5568;
+        }
+        
+        .add-btn {
+            background-color: #3182ce;
+        }
+        
+        .add-btn:hover {
+            background-color: #2b6cb0;
+        }
+        
+        .cart-section {
+            width: 100%;
+            max-width: 320px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .cart-title {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        #cartList {
+            list-style-type: none;
+            margin: 10px 0;
+            padding: 0;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        #cartList li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .remove-btn {
+            color: #e53e3e;
+            cursor: pointer;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        .cart-total {
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 18px;
+        }
+        
+        .checkout-btn {
+            background-color: #38a169;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .checkout-btn:hover {
+            background-color: #2f855a;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 90%;
+            max-height: 90%;
+            width: 400px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .modal-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        
+        .modal-title {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .modal-price {
+            color: #2b6cb0;
+            font-weight: bold;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background-color: #718096;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        footer {
+            background-color: #4a5568;
+            height: 30px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            color: white;
+            font-size: 14px;
+        }
+        
+        #orderForm {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 25px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .form-title {
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .submit-btn {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #2b6cb0;
+        }
+        
+        .back-btn {
+            background-color: #a0aec0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+        
+        .home-content {
+            text-align: center;
+            padding: 30px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .home-title {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .home-text {
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .contact-content {
+            text-align: center;
+            padding: 30px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .contact-title {
+            color: #2d3748;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+        
+        .added-to-cart {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #38a169;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            animation: fadeInOut 2s forwards;
+        }
+        
+        @keyframes fadeInOut {
+            0% { opacity: 0; top: 80px; }
+            20% { opacity: 1; top: 100px; }
+            80% { opacity: 1; top: 100px; }
+            100% { opacity: 0; top: 120px; visibility: hidden; }
+        }
+        
+        @media (max-width: 600px) {
+            nav {
+                flex-wrap: wrap;
+                height: auto;
+                padding: 10px;
+            }
+            
+            nav button, nav input {
+                margin: 3px;
+                font-size: 12px;
+                padding: 5px 8px;
+            }
+            
+            #searchInput {
+                max-width: 120px;
+            }
+            
+            body {
+                padding-top: 120px;
+            }
+            
+            .marquee {
+                top: 70px;
+                font-size: 14px;
+            }
+            
+            .main_div {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <button onclick="showSection('home')">Home</button>
+        <button onclick="showSection('items')">Items</button>
+        <input type="search" placeholder="Search for Items" id="searchInput">
+        <button onclick="showSection('cart')">Cart</button>
+    </nav>
+    
+    <div class="marquee">
+        <marquee behavior="scroll" direction="left">
+         Order and Pay on Delivery!!! <img src="basket-fill.svg" alt="moves" height="20">
+        </marquee>
+    </div>
+    
+    <section id="items" class="content-section" style="display: none;">
+        <div class="main_div" data-name="Snack" data-price="10.00">
+            <img src="basket-fill.svg" alt="Snack" class="item-img">
+            <h3 class="item-title">Snack</h3>
+            <p class="item-price">R10.00</p> 
+            <div class="sub_div">
+                <div class="btn add-btn">Add to Cart</div>
+            </div>
+        </div>
+
+        <div class="main_div" data-name="Tomato" data-price="15.00">
+            <img src="basket-fill.svg" alt="Tomato" class="item-img">
+            <h3 class="item-title">Tomato</h3>
+            <p class="item-price">R15.00</p> 
+            <div class="sub_div">
+                <div class="btn add-btn">Add to Cart</div>
+            </div>
+        </div>
+
+        <div class="main_div" data-name="Potatoes" data-price="30.00">
+            <img src="basket-fill.svg" alt="Potatoes" class="item-img">
+            <h3 class="item-title">Potatoes</h3>
+            <p class="item-price">R30.00</p> 
+            <div class="sub_div">
+                <div class="btn add-btn">Add to Cart</div>
+            </div>
+        </div>
+
+    <div class="main_div" data-name="Carrot" data-price="18.00">
+    <img src="basket-fill.svg" alt="Carrot" class="item-img">
+    <h3 class="item-title">Carrot</h3>
+    <p class="item-price">R18.00</p> 
+    <div class="sub_div">
+        <div class="btn add-btn">Add to Cart</div>
+    </div>
+</div>
+
+<div class="main_div" data-name="Cabbage" data-price="22.00">
+    <img src="basket-fill.svg" alt="Cabbage" class="item-img">
+    <h3 class="item-title">Cabbage</h3>
+    <p class="item-price">R22.00</p> 
+    <div class="sub_div">
+        <div class="btn add-btn">Add to Cart</div>
+    </div>
+</div>
+
+<div class="main_div" data-name="Zimba" data-price="40.00">
+    <img src="basket-fill.svg" alt="Zimba" class="item-img">
+    <h3 class="item-title">Zimba</h3>
+    <p class="item-price">R40.00</p> 
+    <div class="sub_div">
+        <div class="btn add-btn">Add to Cart</div>
+    </div>
+</div>
+
+    </section>
+    
+    <section id="cart" class="content-section" style="display: none;">
+        <div class="cart-section">
+            <h4 class="cart-title">Cart Items</h4>
+            <ul id="cartList">
+                <li style="color: grey; text-align: center; font-style: italic;">No items added to cart yet</li>
+            </ul>
+            <p class="cart-total">Total: R <span id="totalPrice">0.00</span></p>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </section>
+    
+    <section id="home" class="content-section">
+    <div class="home-content">
+        <h2 class="home-title">Welcome to TUT Science Faculty Student Market</h2>
+        <p class="home-text">Your campus marketplace for affordable essentials. Browse our selection of fresh produce, accessories, snacks, and study supplies at student-friendly prices.</p>
+        <p class="home-text">We're committed to supporting the TUT Science community by providing convenient access to quality products with cash-on-delivery service.</p>
+        <p class="home-text">Check regularly for new arrivals and special offers throughout the academic year.</p>
+        <p class="home-text">Start shopping now by clicking on the Items tab above!</p>
+    </div>
+    </section>
+    
+    <section id="contacts" class="content-section" style="display: none;">
+        <div class="contact-content">
+            <h2 class="contact-title">Contact Us</h2>
+            <p class="contact-info">Phone: 079-047-8203</p>
+            <p class="contact-info">Email: <a href="mailto:Collinsmaropeng2@gmail.com" style="color: grey; text-decoration: none;">info@market.com</a></p>
+        </div>
+    </section>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <img id="modalImg" src="" alt="Preview of item">
+            <h3 id="modalName" class="modal-title"></h3>
+            <p id="modalPrice" class="modal-price"></p>
+            <button id="closeModal" class="close-modal">Close</button>
+        </div>
+    </div>
+
+    <form id="orderForm" action="https://formsubmit.co/c979cffa3f60cd909235a13c8f804587" method="POST" style="display: none;">
+        <h3 class="form-title">Order Summary</h3>
+        <div id="orderSummary" style="text-align: left; margin: 15px 0;"></div>
+        <p><strong>Total: R <span id="orderTotal">0.00</span></strong></p>
+        
+        <h3 class="form-title">Delivery Information</h3>
+        <p style="display: none;"><strong>Order Number:</strong> #TUT<span id="order-number"></span></p>
+        <input style="display: none;" id="codeseat" type="text" name="Order Number">
+        <input type="text" name="name" placeholder="Your Name" required class="form-input">
+        <input type="text" name="address" placeholder="Delivery Address" required class="form-input">
+        <input type="tel" name="phone" placeholder="Phone Number" required class="form-input">
+        
+        <input type="hidden" name="_next" value="http://127.0.0.1:5500/thanks.html">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="Order" id="orderDetails">
+        
+        <div style="margin: 15px 0;">
+            <i style="color: grey;">Cash On Delivery</i>
+        </div>
+        <button type="submit" class="submit-btn">Place Order</button>
+        <button type="button" class="back-btn" onclick="showSection('cart')">Back to Cart</button>
+    </form>
+
+    <footer>
+        &copy; <script>document.write(new Date().getFullYear());</script>
+        Collins. All rights reserved. <a style="margin-left: 4px; text-decoration: none;" href="#" onclick="showSection('contacts')"> Get in touch</a>
+    </footer>
+
+    <script>
+
+        // Generate a random order number
+        document.getElementById('order-number').textContent = Math.floor(1000 + Math.random() * 9000);
+        let code = document.getElementById('order-number');
+        let codeseat = document.getElementById('codeseat');
+
+        codeseat.value = '#TUT' + code.innerHTML;
+
+        // Navigation functions
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Hide order form
+            document.getElementById('orderForm').style.display = 'none';
+            
+            // Show selected section
+            if (sectionId === 'cart') {
+                document.getElementById('cart').style.display = 'flex';
+                updateCartDisplay();
+            } else if (sectionId === 'items') {
+                document.getElementById('items').style.display = 'flex';
+            } else if (sectionId === 'home') {
+                document.getElementById('home').style.display = 'block';
+            } else if (sectionId === 'contacts') {
+                document.getElementById('contacts').style.display = 'block';
+            }
+        }
+        
+        function checkout() {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show order form
+            document.getElementById('orderForm').style.display = 'block';
+            
+            // Update order summary
+            const orderSummary = document.getElementById('orderSummary');
+            orderSummary.innerHTML = '';
+            
+            if (cartItems.length === 0) {
+                orderSummary.innerHTML = '<p>No items in cart</p>';
+            } else {
+                cartItems.forEach(item => {
+                    const p = document.createElement('p');
+                    p.textContent = `${item.name} - R ${item.price.toFixed(2)}`;
+                    orderSummary.appendChild(p);
+                });
+            }
+            
+            document.getElementById('orderTotal').textContent = total.toFixed(2);
+        }
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const itemList = document.getElementById('items');
+        
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+            const items = itemList.getElementsByClassName('main_div');
+            
+            for (let i = 0; i < items.length; i++) {
+                const text = items[i].getAttribute('data-name').toLowerCase();
+                items[i].style.display = text.includes(filter) ? '' : 'none';
+            }
+        });
+
+        // Cart functionality
+        const cartList = document.getElementById('cartList');
+        const totalDisplay = document.getElementById('totalPrice');
+        const orderDetails = document.getElementById('orderDetails');
+        let total = 0;
+        let cartItems = [];
+
+        // Add event listeners to all Add to Cart buttons
+        const addButtons = document.querySelectorAll('.add-btn');
+        addButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const itemDiv = this.closest('.main_div');
+                const itemName = itemDiv.getAttribute('data-name');
+                const itemPrice = parseFloat(itemDiv.getAttribute('data-price'));
+                
+                // Add to cart
+                cartItems.push({name: itemName, price: itemPrice});
+                
+                // Update cart display
+                updateCartDisplay();
+                
+                // Show "Added to Cart" message
+                showAddedToCartMessage(itemName);
+                
+                // Change button color temporarily
+                const originalBgColor = this.style.backgroundColor;
+                const originalColor = this.style.color;
+                this.style.backgroundColor = 'pink';
+                this.style.color = 'black';
+                
+                setTimeout(() => {
+                    this.style.backgroundColor = originalBgColor;
+                    this.style.color = originalColor;
+                }, 500);
+            });
+        });
+
+        // Show "Added to Cart" message
+        function showAddedToCartMessage(itemName) {
+            // Remove any existing message
+            const existingMessage = document.querySelector('.added-to-cart');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Create new message
+            const message = document.createElement('div');
+            message.className = 'added-to-cart';
+            message.textContent = `Added ${itemName} to cart!`;
+            
+            document.body.appendChild(message);
+            
+            // Remove message after animation completes
+            setTimeout(() => {
+                message.remove();
+            }, 2000);
+        }
+
+        // Update cart display function
+        function updateCartDisplay() {
+            // Clear current cart display
+            cartList.innerHTML = '';
+            total = 0;
+            
+            if (cartItems.length === 0) {
+                cartList.innerHTML = '<li style="color: grey; text-align: center; font-style: italic;">No items added to cart yet</li>';
+            } else {
+                // Add items to cart display
+                cartItems.forEach((item, index) => {
+                    const li = document.createElement('li');
+                    
+                    const itemText = document.createElement('span');
+                    itemText.textContent = `${item.name} - R ${item.price.toFixed(2)}`;
+                    
+                    const removeBtn = document.createElement('span');
+                    removeBtn.textContent = '✕';
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.onclick = function() {
+                        cartItems.splice(index, 1);
+                        updateCartDisplay();
+                    };
+                    
+                    li.appendChild(itemText);
+                    li.appendChild(removeBtn);
+                    cartList.appendChild(li);
+                    total += item.price;
+                });
+            }
+            
+            // Update total
+            totalDisplay.textContent = total.toFixed(2);
+            
+            // Update order details for form submission
+            const orderText = cartItems.map(item => `${item.name} - R${item.price.toFixed(2)}`).join('\n');
+            orderDetails.value = `Order Details:\n${orderText}\n\nTotal: R${total.toFixed(2)}`;
+        }
+        
+        // Initialize page to show home section
+        showSection('home');
+    </script>
+</body>
+</html>
