@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TUT Science Student Market</title>
     <style>
+        /* Your CSS remains the same */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -302,6 +303,7 @@
         .form-title {
             color: #2d3748;
             margin-bottom: 20px;
+            text-align: center;
         }
         
         .form-input {
@@ -440,7 +442,7 @@
     <nav>
         <button onclick="showSection('home')">Home</button>
         <button onclick="showSection('items')">Items</button>
-        <input type="search" placeholder="Search for Items" id="searchInput">
+        <input style="opacity: 0;" type="search" placeholder="Search for Items" id="searchInput">
         <button onclick="showSection('cart')">Cart</button>
     </nav>
     
@@ -602,13 +604,27 @@
     </footer>
 
     <script>
-
+        // Declare search variables in global scope
+        const searchInput = document.getElementById('searchInput');
+        const itemList = document.getElementById('items');
+        
         // Generate a random order number
         document.getElementById('order-number').textContent = Math.floor(1000 + Math.random() * 9000);
         let code = document.getElementById('order-number');
         let codeseat = document.getElementById('codeseat');
 
         codeseat.value = '#TUT' + code.innerHTML;
+
+        // Add search event listener
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+            const items = itemList.getElementsByClassName('main_div');
+            
+            for (let i = 0; i < items.length; i++) {
+                const text = items[i].getAttribute('data-name').toLowerCase();
+                items[i].style.display = text.includes(filter) ? '' : 'none';
+            }
+        });
 
         // Navigation functions
         function showSection(sectionId) {
@@ -624,12 +640,16 @@
             if (sectionId === 'cart') {
                 document.getElementById('cart').style.display = 'flex';
                 updateCartDisplay();
+                searchInput.style.opacity = '0';
             } else if (sectionId === 'items') {
                 document.getElementById('items').style.display = 'flex';
+                searchInput.style.opacity = '1';
             } else if (sectionId === 'home') {
                 document.getElementById('home').style.display = 'block';
+                searchInput.style.opacity = '0';
             } else if (sectionId === 'contacts') {
                 document.getElementById('contacts').style.display = 'block';
+                searchInput.style.opacity = '0';
             }
         }
         
@@ -658,20 +678,6 @@
             
             document.getElementById('orderTotal').textContent = total.toFixed(2);
         }
-
-        // Search functionality
-        const searchInput = document.getElementById('searchInput');
-        const itemList = document.getElementById('items');
-        
-        searchInput.addEventListener('keyup', function() {
-            const filter = searchInput.value.toLowerCase();
-            const items = itemList.getElementsByClassName('main_div');
-            
-            for (let i = 0; i < items.length; i++) {
-                const text = items[i].getAttribute('data-name').toLowerCase();
-                items[i].style.display = text.includes(filter) ? '' : 'none';
-            }
-        });
 
         // Cart functionality
         const cartList = document.getElementById('cartList');
